@@ -51,6 +51,10 @@ If you want to use another language in features files, you can see this [doc](ht
 
 ## Reports
 
+### Cucumber 
+
+I have added cucumber reporting `wdio-cucumberjs-json-reporter` to the output to support xray 
+
 ### Allure
 
 Run this command to generate the allure report in the directory `./test-report/allure-report`:
