@@ -65,6 +65,15 @@ exports.config = {
     beforeSession() {
         require('expect-webdriverio').setOptions({ wait: 5000 });
     },
+    afterTest(){
+        function (test, context, { error, result, duration, passed, retries }) {
+            if(passed) {
+              browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "Assertions passed"}}');
+            } else {
+              browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "At least 1 assertion failed"}}');
+            }
+          }
+        },
     before() {
         browser.setWindowSize(1280, 720);
     },
@@ -76,5 +85,5 @@ exports.config = {
         if (scenario.error) {
             browser.takeScreenshot();
         }
-    },
+    },  
 };
