@@ -2,8 +2,8 @@ const { TimelineService } = require('wdio-timeline-reporter/timeline-service');
 
 exports.config = {
 
-    user: 'iainmacdonald_FvVDKl',
-    key: 'aMARosgFPpGTXWG3Hqaj',  // BS creds
+    user: process.env.user,
+    key: process.env.key,  // BS creds Passed in dynamically 
     maxInstances: 10,
     host: 'hub.browserstack.com',
     commonCapabilities: {
