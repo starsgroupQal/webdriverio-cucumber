@@ -1,18 +1,27 @@
 const { TimelineService } = require('wdio-timeline-reporter/timeline-service');
 
 exports.config = {
-    runner: 'local',
-    hostname: 'localhost',
-    port: 4444,
-    path: '/wd/hub',
+
+    user: 'iainmacdonald_FvVDKl',
+    key: 'aMARosgFPpGTXWG3Hqaj',  // BS creds
+    maxInstances: 10,
+    host: 'hub.browserstack.com',
+    commonCapabilities: {
+        name: 'testing automationpractice.com',
+        build: 'macca-webdriverio-browserstack-build'  // The name of test and name of build is being defined here
+      },
+      capabilities: [{
+        browserName: 'chrome'
+      },{
+        browserName: 'firefox'
+      },{
+        browserName: 'internet explorer'
+      },{
+        os: 'OS X',
+        os_version: 'Catalina',
+        browserName: 'safari'   // You can define all other capabilities that you want in your tests, in this section
+      }],
     specs: ['./dist/**/*.feature'],
-    maxInstances: 1,
-    capabilities: [
-        {
-            maxInstances: 1,
-            browserName: 'chrome',
-        },
-    ],
     logLevel: 'trace',
     outputDir: './test-report/output',
     bail: 0,
@@ -22,11 +31,11 @@ exports.config = {
     connectionRetryCount: 3,
     framework: 'cucumber',
     reporters: [
-        [ 'cucumberjs-json', {
+        ['cucumberjs-json', {
             jsonFolder: './test-report/cucumber',
             language: 'en',
         },
-    ],
+        ],
         'spec',
         ['timeline', { outputDir: './test-report/timeline' }],
     ],
@@ -52,7 +61,7 @@ exports.config = {
         ignoreUndefinedDefinitions: false,
         tagExpression: 'not @skip',
     },
-    services: ['chromedriver', [TimelineService]],
+    services: ['chromedriver', 'browserstack', [TimelineService]],
     beforeSession() {
         require('expect-webdriverio').setOptions({ wait: 5000 });
     },
