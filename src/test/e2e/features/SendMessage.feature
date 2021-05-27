@@ -3,8 +3,8 @@ Feature: Sending message to customer service
     Background:
         Given I'm on the login page
         And I log in with a user:
-                | email                         | password      |
-                | automationtests@testing.com   | 12345678      |
+            | email                       | password |
+            | automationtests@testing.com | 12345678 |
     @ISPT-22
     Scenario: Show the customer service label
         When I'm on the contact page

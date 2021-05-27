@@ -18,5 +18,13 @@ Then(/^show a welcome message on the site$/, () => {
 });
 
 Then(/^show user name '(.+)' on the site$/, (userName) => {
-    expect(loginPage.userLoggedIn).toHaveText(userName);
+    const actualText = loginPage.userLoggedIn.getText();
+    expect(actualText).toMatch(userName);
+    expect(loginPage.userLoggedIn).toHaveTextContaining(userName);
+    // We can make the test pass or fail in BrowserStack run on an step level as outlined below:
+    // if(loginPage.userLoggedIn.isExisting()){
+    //     driver.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "User is logged in!"}}');
+    // } else {
+    //     driver.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "User is not logged in!"}}');
+    // }
 });

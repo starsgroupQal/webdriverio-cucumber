@@ -14,7 +14,6 @@ When(/^I send a message with a document$/, () => {
         file: 'file.pdf',
     };
     contactPage.sendMessage(content);
-
     // This sleep is unnecessary for the test, it's only to see the result (on-screen)
     browser.pause(5000);
 });
