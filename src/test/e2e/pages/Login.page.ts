@@ -6,6 +6,25 @@ class LoginPage {
     get buttonLogin() {
         return $('.login');
     }
+    get pokerStarsLoginButton() {
+        return $('._1oujrjA _3178u8T _HB0bQEZ _1kHX3zf');
+    }
+
+    get pokerStarsUsernameId() {
+        return $('#userId');
+    }
+
+    get pokerStarsPasswordId() {
+        return $('#password');
+    }
+
+    get pokerStarsSubmitLoginButton() {
+        return $('._1oujrjA _2PMh8FC _2hwNVzd _1BLPWPB');
+    }
+
+    get loggedInIcon() {
+        return $('._36vYMzR');
+    }
 
     get inputEmail() {
         return $('body #email');
@@ -37,6 +56,19 @@ class LoginPage {
 
             this.buttonSignIn.click();
             this.welcomeMessage.waitForExist();
+        }
+    }
+
+    pokerStarsLogin(email: string, password: string) {
+        if (this.pokerStarsLoginButton.isExisting()) {
+            this.pokerStarsLoginButton.click();
+
+            this.pokerStarsUsernameId.waitForEnabled();
+            this.pokerStarsUsernameId.setValue(email);
+            this.pokerStarsPasswordId.setValue(password);
+
+            this.pokerStarsSubmitLoginButton.click();
+            this.loggedInIcon.waitForExist();
         }
     }
 }
