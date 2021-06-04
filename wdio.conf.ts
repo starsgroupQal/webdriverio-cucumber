@@ -1,5 +1,5 @@
 const { TimelineService } = require('wdio-timeline-reporter/timeline-service');
-
+const browserstack = require('browserstack-local'); 
 exports.config = {
   user: process.env.user,
   key: process.env.key,  // BS creds Passed in dynamically 
@@ -11,17 +11,18 @@ exports.config = {
   },
   capabilities: [
     {
-      browserName: 'chrome'
+      browserName: 'chrome',
+      'browserstack.local': true
     },
     {
-      browserName: 'firefox'
-    }, {
-      browserName: 'internet explorer'
+      browserName: 'firefox',
+      'browserstack.local': true
     },
     {
       os: 'OS X',
       os_version: 'Catalina',
-      browserName: 'safari'   // You can define all other capabilities that you want in your tests, in this section
+      browserName: 'safari',   // You can define all other capabilities that you want in your tests, in this section
+      'browserstack.local': true
     }
   ],
   specs: ['./dist/**/*.feature'],
@@ -70,6 +71,18 @@ exports.config = {
   },
   before() {
     browser.setWindowSize(1280, 720);
+  },
+  onPrepare(config: any, capabilities: any) {
+    console.log("Connecting local");
+    return new Promise<void>(function(resolve, reject){
+      exports.bs_local = new browserstack.Local();
+      exports.bs_local.start({'key': exports.config.key }, function(error: any) {
+        if (error) return reject(error);
+        console.log('Connected. Now testing...');
+
+        resolve();
+      });
+    });
   },
   afterStep(
     uri: undefined,
