@@ -4,7 +4,9 @@ class CompetitionEvents {
     }
 
     get soccerSport() {
-        return $('//*[@id="root"]/div/div[4]/div[1]/div/nav[2]/ul/li[27]/a/span/span');
+        return $(
+            '//*[@id="root"]/div/div[4]/div[1]/div/nav[2]/ul/li[27]/a/span/span',
+        );
     }
 
     get gotoPage() {
@@ -28,20 +30,17 @@ class CompetitionEvents {
     }
 
     selectSport() {
-            this.gotoPage.isExisting()
-            this.soccerSport.isExisting()
-            this.soccerSport.click();
+        this.gotoPage.isExisting();
+        this.soccerSport.isExisting();
+        this.soccerSport.click();
 
-            // this.inputEmail.waitForEnabled();
-            // this.inputEmail.setValue(email);
-            // this.inputPassword.setValue(password);
+        // this.inputEmail.waitForEnabled();
+        // this.inputEmail.setValue(email);
+        // this.inputPassword.setValue(password);
 
-            // this.buttonSignIn.click();
-            // this.welcomeMessage.waitForExist();
-        
+        // this.buttonSignIn.click();
+        // this.welcomeMessage.waitForExist();
     }
-
-   
 }
 
 export const competitionEvents = new CompetitionEvents();
