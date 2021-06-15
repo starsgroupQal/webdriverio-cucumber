@@ -45,6 +45,12 @@ Run e2e tests:
 npm run tests:e2e
 ```
 
+Run browser specific tests:
+
+```bash
+npm run tests -- chrome
+```
+
 ## Spoken Languages
 
 If you want to use another language in features files, you can see this [doc](https://cucumber.io/docs/gherkin/reference/#spoken-languages) about how can you do that.
