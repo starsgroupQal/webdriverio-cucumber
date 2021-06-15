@@ -1,13 +1,18 @@
-const { TimelineService } = require('wdio-timeline-reporter/timeline-service');
+
 
 exports.config = {
-  user: process.env.user,
-  key: process.env.key,  // BS creds Passed in dynamically 
+  user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
+  key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
   maxInstances: 10,
   host: 'hub.browserstack.com',
   commonCapabilities: {
-    name: 'testing automationpractice.com',
-    build: 'macca-webdriverio-browserstack-build' + new Date().getTime()  // The name of test and name of build is being defined here
+    name: 'E2E Test',
+    build:  'Browserstack-UI-Default-build',
+            'browserstack.local': true,
+            'browserstack.debug': true,
+            'browserstack.console':'verbose',
+            'browserstack.timezone':'London',
+            'browserstack.networkLogs': true  // The name of test and name of build is being defined here
   },
   capabilities: [
     {
@@ -28,7 +33,7 @@ exports.config = {
   logLevel: 'trace',
   outputDir: './test-report/output',
   bail: 0,
-  baseUrl: 'http://automationpractice.com',
+  baseUrl: 'https://bs-eu.qc-sports-mt1.starsweb.io/',
   waitforTimeout: 10000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
@@ -64,23 +69,31 @@ exports.config = {
     ignoreUndefinedDefinitions: false,
     tagExpression: 'not @skip',
   },
-  services: ['chromedriver', 'browserstack', [TimelineService]],
-  beforeSession() {
+  services: ['chromedriver', 'browserstack'],
+  beforeSession: function (config: any, capabilities: { name: any; }, specs: string[]) {
     require('expect-webdriverio').setOptions({ wait: 5000 });
+    capabilities.name = specs && specs[0].split('/').pop() || undefined;
   },
   before() {
-    browser.setWindowSize(1280, 720);
+//browser.setWindowSize(1280, 720);
   },
   afterStep(
     uri: undefined,
     feature: undefined,
-    scenario: { error: boolean },
+    scenario: { error: boolean, passed: boolean},
   ) {
+    if (scenario.passed) {
+      browser.takeScreenshot();
+      browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "All steps passed"}}');
+     } 
     if (scenario.error) {
       browser.takeScreenshot();
-      browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "At least 1 assertion failed"}}');
-    }
+      browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "Step has failed"}}');
+ }
   },
+  afterSession() {
+    browser.closeApp()
+  }
 };
 
 // Code to support common capabilities

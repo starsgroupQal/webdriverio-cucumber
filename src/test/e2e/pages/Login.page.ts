@@ -1,6 +1,6 @@
 class LoginPage {
     open() {
-        browser.url('/');
+        browser.url('http://automationpractice.com/');
     }
 
     get buttonLogin() {
